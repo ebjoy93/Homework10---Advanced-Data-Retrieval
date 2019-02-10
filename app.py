@@ -53,8 +53,8 @@ def home():
 @app.route("/api/v1.0/precipitation")
 def prep():
     
-    date_precip_scores = session.query(Measurement.date, Measurement.prcp).\
-    filter(Measurement.date > '2016-08-23').\
+    date_precip_scores = session.query(Measurement.date, Measurement.prcp)\
+    filter(Measurement.date > '2016-08-23')\
     order_by(Measurement.date).all()
 
     df_date_precip_scores = pd.DataFrame(date_precip_scores)
@@ -75,21 +75,21 @@ def station():
 
 @app.route("/api/v1.0/tobs")
 def tobs():
-    dates_temp = session.query(Measurement.station, Measurement.date, Measurement.tobs).filter(Measurement.date >= '2016-08-23').\
+    dates_temp = session.query(Measurement.station, Measurement.date, Measurement.tobs).filter(Measurement.date >= '2016-08-23')\
     group_by(Measurement.station).all()
     
     return jsonify(dates_temp)
 
 @app.route("/api/v1.0/<start>")
 def calc_start(start):
-        start_date = session.query(Station.id, Station.station, func.min(Measurement.tobs), func.max(Measurement.tobs), .\
+        start_date = session.query(Station.id, Station.station, func.min(Measurement.tobs), func.max(Measurement.tobs),\
         func.avg(Measurement.tobs)).filter(Measurement.station == Station.station).filter(Measurement.date >= start).all()
        
         return jsonify(calc_start('2012-02-01'))
     
 @app.route("/api/v1.0/<start>/<end>")
 def calc_temps(start_date, end_date):
-    return session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
+    return session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs))\
     filter(Measurement.date >= start_date).filter(Measurement.date <= end_date).all()
 
     return jsonify(calc_temps('2012-02-01', '2012-02-10'))
