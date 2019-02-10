@@ -37,17 +37,17 @@ app = Flask(__name__)
 @app.route("/Home")
 def home():
     return (
-               f"Available Routes: " <br />
-               f"- Precipitation" <br/>
-               f"/api/v1.0/precipitation" <br />
-               f"- Stations" <br/>
-               f"/api/v1.0/stations" <br />
-               f"- Teampeature Observatinos (Tobs)" <br/>
-               f"/api/v1.0/tobs" <br />
-               f"- Start" <br/>
-               f"/api/v1.0/<start>" <br/>
-               f"- Temprature Information " <br/>
-               f"/api/v1.0/<start>/<end>" <br/>
+               f"Available Routes: <br />"
+               f"- Precipitation <br/>"
+               f"/api/v1.0/precipitation <br />"
+               f"- Stations <br/>"
+               f"/api/v1.0/stations <br />"
+               f"- Teampeature Observatinos (Tobs) <br/>"
+               f"/api/v1.0/tobs <br />"
+               f"- Start <br/>"
+               f"/api/v1.0/<start> <br/>"
+               f"- Temprature Information <br/>"
+               f"/api/v1.0/<start>/<end> <br/>"
            )
 
 @app.route("/api/v1.0/precipitation")
