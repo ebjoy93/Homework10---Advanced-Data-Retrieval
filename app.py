@@ -53,8 +53,7 @@ def home():
 @app.route("/api/v1.0/precipitation")
 def prep():
     
-    date_precip_scores = session.query(Measurement.date, Measurement.prcp).filter(Measurement.date > '2016-08-23')\
-    order_by(Measurement.date).all()
+    date_precip_scores = session.query(Measurement.date, Measurement.prcp).filter(Measurement.date > '2016-08-23').order_by(Measurement.date).all()
 
     df_date_precip_scores = pd.DataFrame(date_precip_scores)
     
@@ -74,8 +73,7 @@ def station():
 
 @app.route("/api/v1.0/tobs")
 def tobs():
-    dates_temp = session.query(Measurement.station, Measurement.date, Measurement.tobs).filter(Measurement.date >= '2016-08-23')\
-    group_by(Measurement.station).all()
+    dates_temp = session.query(Measurement.station, Measurement.date, Measurement.tobs).filter(Measurement.date >= '2016-08-23').group_by(Measurement.station).all()
     
     return jsonify(dates_temp)
 
