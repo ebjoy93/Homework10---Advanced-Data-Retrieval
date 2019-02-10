@@ -38,15 +38,15 @@ app = Flask(__name__)
 def home():
     return (
                f"Available Routes: <br />"
-               f"- Precipitation <br/>"
-               f"/api/v1.0/precipitation <br />"
-               f"- Stations <br/>"
-               f"/api/v1.0/stations <br />"
-               f"- Teampeature Observatinos (Tobs) <br/>"
-               f"/api/v1.0/tobs <br />"
-               f"- Start <br/>"
-               f"/api/v1.0/<start> <br/>"
-               f"- Temprature Information <br/>"
+               f"- Precipitation<br/>"
+               f"/api/v1.0/precipitation<br />"
+               f"- Stations<br/>"
+               f"/api/v1.0/stations<br />"
+               f"- Teampeature Observatinos (Tobs)<br/>"
+               f"/api/v1.0/tobs<br />"
+               f"- Start<br/>"
+               f"/api/v1.0/<start><br/>"
+               f"- Temprature Information<br/>"
                f"/api/v1.0/<start>/<end> <br/>"
            )
 
@@ -66,7 +66,7 @@ def prep():
 @app.route("/api/v1.0/stations")
 def station():
     
-    stations = session.query(Station.station, Station.name).all()
+    stations = session.query(Station.station, Station.name).order_by(Station.station).all()
     station_list = station_list = list(np.ravel(station))
     
     return jsonify(station_list)
