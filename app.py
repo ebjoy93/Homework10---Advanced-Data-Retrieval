@@ -69,11 +69,15 @@ def station():
     stations = session.query(Station.station, Station.name).order_by(Station.station).all()
     station_list = station_list = list(np.ravel(station))
     
+    station_list
+    
     return jsonify(station_list)
 
 @app.route("/api/v1.0/tobs")
 def tobs():
     dates_temp = session.query(Measurement.station, Measurement.date, Measurement.tobs).filter(Measurement.date >= '2016-08-23').group_by(Measurement.station).all()
+    
+    dates_temp
     
     return jsonify(dates_temp)
 
@@ -81,14 +85,18 @@ def tobs():
 def calc_start(start):
         start_date = session.query(Station.id, Station.station, func.min(Measurement.tobs), func.max(Measurement.tobs),\
         func.avg(Measurement.tobs)).filter(Measurement.station == Station.station).filter(Measurement.date >= start).all()
+        
+        start_date
        
         return jsonify(calc_start('2012-02-01'))
     
 @app.route("/api/v1.0/<start>/<end>")
 def calc_temps(start_date, end_date):
-    return session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).filter(Measurement.date >= start_date).filter(Measurement.date <= end_date).all()
+    calc_temps = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).filter(Measurement.date >= start_date).filter(Measurement.date <= end_date).all()
 
-    return jsonify(calc_temps('2012-02-01', '2012-02-10'))
+    calc_temps
+
+    return jsonify(calc_temps)
 
 if __name__ == "__main__":
     app.run(debug=True)
