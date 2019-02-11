@@ -11,7 +11,7 @@ from flask import Flask, jsonify
 
 #setup
 
-engine = create_engine("sqlite:///Resources/hawaii.sqlite")
+engine = create_engine("sqlite:///Resources/hawaii.sqlite?check_same_thread=False")
 
 # reflect an existing database into a new model
 
@@ -34,7 +34,7 @@ session = Session(engine)
 app = Flask(__name__)
 
 # route home and route options
-@app.route("/Home")
+@app.route("/")
 def home():
     return (
                f"Available Routes: <br />"
@@ -86,9 +86,12 @@ def calc_start(start):
         start_date = session.query(Station.id, Station.station, func.min(Measurement.tobs), func.max(Measurement.tobs),\
         func.avg(Measurement.tobs)).filter(Measurement.station == Station.station).filter(Measurement.date >= start).all()
         
-        print(start_date)
+        df_start_date = pd.DataFrame(start_date).transpose()
+        #start_date_dict = df_start_Date.to_dict('list')
+        
+        print(df_start_date)
        
-        return jsonify(calc_start('2012-02-01'))
+        return jsonify(df_start_date)
     
 @app.route("/api/v1.0/<start>/<end>")
 def calc_temps(start_date, end_date):
