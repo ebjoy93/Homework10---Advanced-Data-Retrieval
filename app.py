@@ -66,10 +66,10 @@ def prep():
 @app.route("/api/v1.0/stations")
 def station():
     
-    stations = session.query(Station.station, Station.name).order_by(Station.station).all()
-    station_list = station_list = list(np.ravel(station))
+    station_list = session.query(Station.station, Station.name).group_by(Station.station).all()
+    #station_list = list(np.ravel(station))
     
-    station_list
+    print(station_list)
     
     return jsonify(station_list)
 
@@ -77,7 +77,7 @@ def station():
 def tobs():
     dates_temp = session.query(Measurement.station, Measurement.date, Measurement.tobs).filter(Measurement.date >= '2016-08-23').group_by(Measurement.station).all()
     
-    dates_temp
+    print(dates_temp)
     
     return jsonify(dates_temp)
 
@@ -86,7 +86,7 @@ def calc_start(start):
         start_date = session.query(Station.id, Station.station, func.min(Measurement.tobs), func.max(Measurement.tobs),\
         func.avg(Measurement.tobs)).filter(Measurement.station == Station.station).filter(Measurement.date >= start).all()
         
-        start_date
+        print(start_date)
        
         return jsonify(calc_start('2012-02-01'))
     
@@ -94,7 +94,7 @@ def calc_start(start):
 def calc_temps(start_date, end_date):
     calc_temps = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).filter(Measurement.date >= start_date).filter(Measurement.date <= end_date).all()
 
-    calc_temps
+    print(calc_temps)
 
     return jsonify(calc_temps)
 
